@@ -463,9 +463,10 @@ export default function WalletDashboard({ onNavigate, isLoggedIn }: WalletDashbo
       // Sign Stellar transaction with Freighter if available and connected
       let finalXDR = signed_xdr
       let submitted = false
-      if (window.freighterApi) {
+     
         try {
           const connected = await isConnected()
+          console.log(connected)
           if (connected) {
             const signedResult = await signTransaction(signed_xdr, {
               networkPassphrase: StellarSdk.Networks.TESTNET,
@@ -480,7 +481,6 @@ export default function WalletDashboard({ onNavigate, isLoggedIn }: WalletDashbo
         } catch (err) {
           console.error("Freighter signing failed, falling back to secret key:", err)
         }
-      }
       // If not submitted via Freighter, use secret key wallet
       if (!submitted) {
         const secretKey = localStorage.getItem("wallet_secret_key")
@@ -583,12 +583,12 @@ export default function WalletDashboard({ onNavigate, isLoggedIn }: WalletDashbo
 
       if (payload.use_freighter) {
         try {
-          if (!window.freighterApi) {
-            toast.error("Freighter wallet extension is not installed. Please install Freighter to proceed.")
-            setIsProcessing(false)
-            toast.dismiss(toastId)
-            return
-          }
+          // if (!window.freighterApi) {
+          //   toast.error("Freighter wallet extension is not installed. Please install Freighter to proceed.")
+          //   setIsProcessing(false)
+          //   toast.dismiss(toastId)
+          //   return
+          // }
 
           const connected = await isConnected()
           if (!connected) {
